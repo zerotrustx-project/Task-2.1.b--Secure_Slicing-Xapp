@@ -1,24 +1,24 @@
-name: Pages
+name: Update and Push
 
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
-  build:
+  update_and_push:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout
-      uses: actions/checkout@master
-      with:
-        fetch-depth: 0 # otherwise will fail to push refs to dest repo
-    - name: Dependencies
-      run: sudo -H python3 -m pip install sphinx sphinx_rtd_theme
-    - name: Build and Commit
-      uses: sphinx-notes/pages@v2
-      with:
-        documentation_path: docs/source
+      uses: actions/checkout@v2
+
+    - name: Pull and Rebase
+      run: |
+        git pull --rebase origin main
+        # Resolve conflicts if any
+        git push origin main
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
