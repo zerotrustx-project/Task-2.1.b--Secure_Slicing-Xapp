@@ -1,6 +1,6 @@
 layout: page
 title: "Instructions"
-permalink: /Task-2.1.b--Secure_Slicing-Xapp.github.io
+permalink: /https://Task-2.1.b--Secure_Slicing-Xapp.github.io
 
 
 Running the SS Xapp 
