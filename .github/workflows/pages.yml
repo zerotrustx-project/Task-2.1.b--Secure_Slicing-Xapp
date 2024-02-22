@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v0.8.0
+      uses: actions/checkout@master
       with:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
     - name: Dependencies
@@ -20,7 +20,7 @@ jobs:
       with:
         documentation_path: docs/source
     - name: Push changes
-      uses: ad-m/github-push-action@v0.8.0
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: main
