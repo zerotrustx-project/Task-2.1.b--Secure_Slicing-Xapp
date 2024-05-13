@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googlemock/include -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googlemock -isystem /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googletest/include -isystem /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googletest
+CXX_INCLUDES = -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/../lib/e2ap/include -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/../lib/e2sm/include -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/../include -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googlemock/include -I/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googlemock -isystem /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googletest/include -isystem /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/_deps/googletest-src/googletest
 
-CXX_FLAGS = -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -std=c++14
+CXX_FLAGS = -pthread -O3 -DNDEBUG -fPIC -Wall -Wshadow -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 

@@ -1,5 +1,0 @@
-if(EXISTS "/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/second_test[1]_tests.cmake")
-  include("/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/second_test[1]_tests.cmake")
-else()
-  add_test(second_test_NOT_BUILT second_test_NOT_BUILT)
-endif()

@@ -20,6 +20,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "_deps/googletest-src/googletest/cmake/gtest.pc.in"
   "_deps/googletest-src/googletest/cmake/gtest_main.pc.in"
   "_deps/googletest-src/googletest/cmake/internal_utils.cmake"
+  "/usr/local/lib/cmake/InfluxDB/InfluxDBConfig.cmake"
+  "/usr/local/lib/cmake/InfluxDB/InfluxDBConfigVersion.cmake"
+  "/usr/local/lib/cmake/InfluxDB/InfluxDBTargets-relwithdebinfo.cmake"
+  "/usr/local/lib/cmake/InfluxDB/InfluxDBTargets.cmake"
   "/usr/share/cmake-3.22/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in"
   "/usr/share/cmake-3.22/Modules/CMakeCCompiler.cmake.in"
   "/usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c"
@@ -38,6 +42,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeDetermineSystem.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake"
+  "/usr/share/cmake-3.22/Modules/CMakeFindDependencyMacro.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
@@ -109,8 +114,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.22/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
   "/usr/share/cmake-3.22/Modules/FetchContent.cmake"
   "/usr/share/cmake-3.22/Modules/FetchContent/CMakeLists.cmake.in"
+  "/usr/share/cmake-3.22/Modules/FindCURL.cmake"
   "/usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.22/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.22/Modules/FindPkgConfig.cmake"
   "/usr/share/cmake-3.22/Modules/FindPython.cmake"
   "/usr/share/cmake-3.22/Modules/FindPython/Support.cmake"
   "/usr/share/cmake-3.22/Modules/FindThreads.cmake"
@@ -124,6 +131,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake"
+  "/usr/share/cmake-3.22/Modules/SelectLibraryConfigurations.cmake"
   "/usr/share/cmake-3.22/Modules/WriteBasicConfigVersionFile.cmake"
   )
 
@@ -155,9 +163,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/mod.dir/DependInfo.cmake"
   "CMakeFiles/hello_test.dir/DependInfo.cmake"
-  "CMakeFiles/second_test.dir/DependInfo.cmake"
+  "CMakeFiles/nexran_test.dir/DependInfo.cmake"
   "_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
   "_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake"
   "_deps/googletest-build/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"

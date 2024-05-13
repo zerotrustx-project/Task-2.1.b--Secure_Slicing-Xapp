@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmod.a CMakeFiles/mod.dir/mod.cc.o
-/usr/bin/ranlib libmod.a

@@ -63,9 +63,8 @@ CMAKE_BINARY_DIR = /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/mod.dir/all
 all: CMakeFiles/hello_test.dir/all
-all: CMakeFiles/second_test.dir/all
+all: CMakeFiles/nexran_test.dir/all
 all: _deps/googletest-build/all
 .PHONY : all
 
@@ -74,9 +73,8 @@ preinstall: _deps/googletest-build/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/mod.dir/clean
 clean: CMakeFiles/hello_test.dir/clean
-clean: CMakeFiles/second_test.dir/clean
+clean: CMakeFiles/nexran_test.dir/clean
 clean: _deps/googletest-build/clean
 .PHONY : clean
 
@@ -132,32 +130,6 @@ _deps/googletest-build/googletest/clean: _deps/googletest-build/googletest/CMake
 .PHONY : _deps/googletest-build/googletest/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/mod.dir
-
-# All Build rule for target.
-CMakeFiles/mod.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles --progress-num=11,12 "Built target mod"
-.PHONY : CMakeFiles/mod.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/mod.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mod.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles 0
-.PHONY : CMakeFiles/mod.dir/rule
-
-# Convenience name for target.
-mod: CMakeFiles/mod.dir/rule
-.PHONY : mod
-
-# clean rule for target.
-CMakeFiles/mod.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/clean
-.PHONY : CMakeFiles/mod.dir/clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/hello_test.dir
 
 # All Build rule for target.
@@ -185,32 +157,31 @@ CMakeFiles/hello_test.dir/clean:
 .PHONY : CMakeFiles/hello_test.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/second_test.dir
+# Target rules for target CMakeFiles/nexran_test.dir
 
 # All Build rule for target.
-CMakeFiles/second_test.dir/all: CMakeFiles/mod.dir/all
-CMakeFiles/second_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
-CMakeFiles/second_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles --progress-num=13,14 "Built target second_test"
-.PHONY : CMakeFiles/second_test.dir/all
+CMakeFiles/nexran_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+CMakeFiles/nexran_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles --progress-num=11,12 "Built target nexran_test"
+.PHONY : CMakeFiles/nexran_test.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/second_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/second_test.dir/all
+CMakeFiles/nexran_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/nexran_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles 0
-.PHONY : CMakeFiles/second_test.dir/rule
+.PHONY : CMakeFiles/nexran_test.dir/rule
 
 # Convenience name for target.
-second_test: CMakeFiles/second_test.dir/rule
-.PHONY : second_test
+nexran_test: CMakeFiles/nexran_test.dir/rule
+.PHONY : nexran_test
 
 # clean rule for target.
-CMakeFiles/second_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/clean
-.PHONY : CMakeFiles/second_test.dir/clean
+CMakeFiles/nexran_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/clean
+.PHONY : CMakeFiles/nexran_test.dir/clean
 
 #=============================================================================
 # Target rules for target _deps/googletest-build/googlemock/CMakeFiles/gmock.dir

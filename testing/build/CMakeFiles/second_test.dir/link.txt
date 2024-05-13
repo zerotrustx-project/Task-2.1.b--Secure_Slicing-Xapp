@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/second_test.dir/second_test.cc.o -o second_test  lib/libgtest_main.a libmod.a lib/libgtest.a 

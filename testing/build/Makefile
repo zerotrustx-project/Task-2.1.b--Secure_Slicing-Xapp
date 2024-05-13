@@ -172,19 +172,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named mod
-
-# Build rule for target.
-mod: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mod
-.PHONY : mod
-
-# fast build rule for target.
-mod/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/build
-.PHONY : mod/fast
-
-#=============================================================================
 # Target rules for targets named hello_test
 
 # Build rule for target.
@@ -198,17 +185,17 @@ hello_test/fast:
 .PHONY : hello_test/fast
 
 #=============================================================================
-# Target rules for targets named second_test
+# Target rules for targets named nexran_test
 
 # Build rule for target.
-second_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 second_test
-.PHONY : second_test
+nexran_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 nexran_test
+.PHONY : nexran_test
 
 # fast build rule for target.
-second_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/build
-.PHONY : second_test/fast
+nexran_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/build
+.PHONY : nexran_test/fast
 
 #=============================================================================
 # Target rules for targets named gmock
@@ -286,53 +273,29 @@ hello_test.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/hello_test.dir/build.make CMakeFiles/hello_test.dir/hello_test.cc.s
 .PHONY : hello_test.cc.s
 
-mod.o: mod.cc.o
-.PHONY : mod.o
+nexran_test.o: nexran_test.cc.o
+.PHONY : nexran_test.o
 
 # target to build an object file
-mod.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/mod.cc.o
-.PHONY : mod.cc.o
+nexran_test.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/nexran_test.cc.o
+.PHONY : nexran_test.cc.o
 
-mod.i: mod.cc.i
-.PHONY : mod.i
-
-# target to preprocess a source file
-mod.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/mod.cc.i
-.PHONY : mod.cc.i
-
-mod.s: mod.cc.s
-.PHONY : mod.s
-
-# target to generate assembly for a file
-mod.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mod.dir/build.make CMakeFiles/mod.dir/mod.cc.s
-.PHONY : mod.cc.s
-
-second_test.o: second_test.cc.o
-.PHONY : second_test.o
-
-# target to build an object file
-second_test.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/second_test.cc.o
-.PHONY : second_test.cc.o
-
-second_test.i: second_test.cc.i
-.PHONY : second_test.i
+nexran_test.i: nexran_test.cc.i
+.PHONY : nexran_test.i
 
 # target to preprocess a source file
-second_test.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/second_test.cc.i
-.PHONY : second_test.cc.i
+nexran_test.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/nexran_test.cc.i
+.PHONY : nexran_test.cc.i
 
-second_test.s: second_test.cc.s
-.PHONY : second_test.s
+nexran_test.s: nexran_test.cc.s
+.PHONY : nexran_test.s
 
 # target to generate assembly for a file
-second_test.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/second_test.dir/build.make CMakeFiles/second_test.dir/second_test.cc.s
-.PHONY : second_test.cc.s
+nexran_test.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/nexran_test.dir/build.make CMakeFiles/nexran_test.dir/nexran_test.cc.s
+.PHONY : nexran_test.cc.s
 
 # Help Target
 help:
@@ -352,17 +315,13 @@ help:
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... hello_test"
-	@echo "... mod"
-	@echo "... second_test"
+	@echo "... nexran_test"
 	@echo "... hello_test.o"
 	@echo "... hello_test.i"
 	@echo "... hello_test.s"
-	@echo "... mod.o"
-	@echo "... mod.i"
-	@echo "... mod.s"
-	@echo "... second_test.o"
-	@echo "... second_test.i"
-	@echo "... second_test.s"
+	@echo "... nexran_test.o"
+	@echo "... nexran_test.i"
+	@echo "... nexran_test.s"
 .PHONY : help
 
 

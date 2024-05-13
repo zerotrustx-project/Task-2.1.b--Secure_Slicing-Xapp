@@ -1,6 +1,5 @@
-/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/mod.dir
 /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/hello_test.dir
-/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/second_test.dir
+/home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/nexran_test.dir
 /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/test.dir
 /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/edit_cache.dir
 /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/CMakeFiles/rebuild_cache.dir

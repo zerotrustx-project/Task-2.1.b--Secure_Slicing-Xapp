@@ -1,5 +1,0 @@
-add_test( TestingTest.IsOneWorking /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/second_test [==[--gtest_filter=TestingTest.IsOneWorking]==] --gtest_also_run_disabled_tests)
-set_tests_properties( TestingTest.IsOneWorking PROPERTIES WORKING_DIRECTORY /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-add_test( TestingTest.IsTwoWorking /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build/second_test [==[--gtest_filter=TestingTest.IsTwoWorking]==] --gtest_also_run_disabled_tests)
-set_tests_properties( TestingTest.IsTwoWorking PROPERTIES WORKING_DIRECTORY /home/charles/Task-2.1.b--Secure_Slicing-Xapp/testing/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set( second_test_TESTS TestingTest.IsOneWorking TestingTest.IsTwoWorking)
