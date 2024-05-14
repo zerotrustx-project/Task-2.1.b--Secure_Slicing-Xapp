@@ -1,23 +1,10 @@
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "Source tree builds are disabled.")
-endif()
-
 cmake_minimum_required(VERSION 3.4)
 project(NexranTesting)
 
 
 include(FindPkgConfig)
 include(FindPackageHandleStandardArgs)
-
 set(PROJECT_SOURCE_DIR "..")
-
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
-
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
-endif()
-
-option(ENABLE_BUILD_TIMESTAMP "Enable build timestamp" OFF)
 
 find_package(Threads REQUIRED)
 find_package(InfluxDB REQUIRED)
@@ -32,7 +19,7 @@ endif()
 message(STATUS "found ricxfcpp libs: " ${RICXFCPP_LIBRARIES})
 message(STATUS "found ricxfcpp include dirs: " ${RICXFCPP_INCLUDE_DIRS})
 
-set(CMAKE_CXX_FLAGS "-pthread")
+set(CMAKE_CXX_FLAGS "-pthread -lpistache")
 
 find_path(RMR_INCLUDE_DIRS rmr/rmr.h REQUIRED)
 find_library(RMR_LIBRARIES rmr_si REQUIRED)
@@ -48,6 +35,12 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include_directories(${PROJECT_SOURCE_DIR}/lib/e2ap/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/e2sm/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(/usr/include/pistache)
+
+add_library(pistache SHARED IMPORTED)
+set_target_properties(pistache PROPERTIES IMPORTED_LOCATION /usr/lib/x86_64-linux-gnu/libpistache.so)
+
+file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/src/*.cc" "${PROJECT_SOURCE_DIR}/src/*.h")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -67,12 +60,14 @@ add_executable(
 target_link_libraries(
   hello_test
   GTest::gtest_main
+  pistache
 )
 
 # Second Test File
 add_executable(
   nexran_test
   nexran_test.cc
+  ${SOURCES}
 )
 target_link_libraries(
   nexran_test

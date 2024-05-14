@@ -1,6 +1,13 @@
 #include <gtest/gtest.h>
 #include <string>
+#include <thread>
+#include <csignal>
+#include <memory>
+
+
+#include "mdclog/mdclog.h"
 #include "nexran.h"
+#include "restserver.h"
 
 
 class NexranTest : public ::testing::Test {
@@ -8,10 +15,12 @@ protected:
     NexranTest() {
       a = 3;
       b = 5;
+      config = std::make_unique<nexran::Config>();
     }
-
     int a;
     int b;
+    std::unique_ptr<nexran::Config> config;
+    std::unique_ptr<nexran::App> app;
 };
 
 TEST_F(NexranTest, IsOneWorking) {
