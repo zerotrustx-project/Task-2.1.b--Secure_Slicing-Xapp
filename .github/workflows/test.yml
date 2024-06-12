@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Testing Secure Slicing xApp
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
     - name: Install O-RAN Near-Real Time RIC
       run: |
           # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
-          cd RIC-Deployment/tools/k8s/bin
+          cd ~/oaic/RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh
           sudo apt remove containernetworking-plugins
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
