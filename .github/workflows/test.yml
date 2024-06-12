@@ -1,0 +1,97 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - testing  # Adjust to your main branch name
+
+jobs:
+  deploy:
+    runs-on: Ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install Dependencies
+      run: |
+          sudo apt update
+          pip3 install docutils
+          sudo swapoff -a
+          sudo apt install nfs-common
+          sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
+          sudo apt-get install libzmq3-dev
+          sudo apt install libtool autoconf
+
+    - name: OAIC setup
+      run: |
+
+          cd ~/
+          git clone https://github.com/openaicellular/oaic.git
+          cd ~/oaic
+          git submodule update --init --recursive --remote
+          python3 generate_installation_script.py
+
+    - name: Install asn1c Compiler
+      run: |
+          cd ~/oaic/asn1c
+          autoreconf -iv
+          ./configure
+          make -j4
+          sudo make install
+          sudo ldconfig
+
+    - name: Install O-RAN Near-Real Time RIC
+      run: |
+          # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
+          cd RIC-Deployment/tools/k8s/bin
+          ./gen-cloud-init.sh
+          sudo apt remove containernetworking-plugins
+          sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
+          sudo kubectl get pods -A
+          sudo kubectl create ns ricinfra
+          sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+          sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+          # Step 3: Build Modified E2 docker Image (7 minutes)
+          sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
+          cd ../../../..
+          cd ric-plt-e2
+          cd RIC-E2-TERMINATION
+          sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+          sudo docker push localhost:5001/ric-plt-e2:5.5.0
+          cd ../../
+          # Step 4: Deploy the near-Real Time RIC (3 minutes)
+          cd RIC-Deployment/bin
+          sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+
+    - name: Setup Nginx Configuration files for deployment
+      run: |
+          OAIC=~/oaic
+          sudo apt-get install nginx
+          sudo systemctl start nginx.service
+
+          cd /etc/nginx/sites-enabled
+          sudo unlink default
+          cd ../../../var/www
+          sudo mkdir xApp_config.local
+          cd xApp_config.local/
+          sudo mkdir config_files
+
+          cd ../../../etc/nginx/conf.d
+          
+          echo -e " \
+          server { \n \
+          listen 5010 default_server; \n \
+          server_name xApp_config.local; \n \
+          location /config_files/ { \n \
+          \n \
+          root /var/www/xApp_config.local/; \n \
+          } \n \
+          \n \
+          }" >> xApp_config.local.conf
+
+          echo ">>> reloading nginx..."
+          sudo nginx -t
+
