@@ -90,7 +90,7 @@ jobs:
       run: |
           OAIC=~/oaic
           sudo apt-get install nginx
-          # sudo systemctl start nginx.service
+          
 
           cd /etc/nginx/sites-enabled
           sudo unlink default
