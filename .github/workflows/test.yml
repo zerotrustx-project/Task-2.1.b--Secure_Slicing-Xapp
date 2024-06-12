@@ -92,7 +92,7 @@ jobs:
           sudo apt-get install nginx
           sudo systemctl start nginx.service
 
-          sudo chmod -r /etc 777
+          sudo chmod -R 777 /etc
           cd /etc/nginx/sites-enabled
           sudo unlink default
           cd ../../../var/www
