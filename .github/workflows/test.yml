@@ -14,7 +14,9 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
+      
     - name: Install Dependencies
       run: |
           sudo apt update
