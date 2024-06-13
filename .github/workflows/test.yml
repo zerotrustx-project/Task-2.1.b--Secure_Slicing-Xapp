@@ -74,6 +74,7 @@ jobs:
           sudo kubectl create ns ricinfra
           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+          sudo apt install nfs-common
           sudo kubectl get pods -A
           sleep 120
           sudo kubectl get pods -A
@@ -92,6 +93,8 @@ jobs:
           sudo docker push localhost:5001/ric-plt-e2:5.5.0
           cd ../../
           # Step 4: Deploy the near-Real Time RIC (3 minutes)
+          sudo kubectl get pods -A
+          sleep 120
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
           sudo kubectl get pods -A
