@@ -85,6 +85,7 @@ jobs:
           # Step 4: Deploy the near-Real Time RIC (3 minutes)
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+          sudo kubectl get pods -A
 
     - name: Setup Nginx Web Server
       run: |
