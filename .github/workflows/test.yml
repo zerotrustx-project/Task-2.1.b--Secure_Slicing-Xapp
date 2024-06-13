@@ -92,6 +92,7 @@ jobs:
           sudo apt-get install nginx
           sudo systemctl start nginx.service
 
+          sudo chmod -R 777 /etc/nginx
           cd /etc/nginx/sites-enabled
           sudo unlink default
           cd ../../../var/www
@@ -123,7 +124,7 @@ jobs:
           sudo cp config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
-          IP=`hostname -I `hostname  -I | cut -f1 -d' `
+          IP=`hostname  -I | cut -f1 -d' '`
 
           sudo echo " \
           {"config-file.json_url":"http://${IP}:5010/config_files/config-file.json"} \
