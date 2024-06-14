@@ -1,3 +1,204 @@
+# name: Testing Secure Slicing xApp
+
+# on:
+#   push:
+#     branches:
+#       - testing  # Adjust to your main branch name
+
+# jobs:
+#   deploy:
+#     runs-on: Ubuntu-20.04
+
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v2
+#       with:
+#         fetch-depth: 0
+#     - name: Setup upterm session
+#       uses: lhotari/action-upterm@v1
+      
+#     - name: Install Dependencies
+#       run: |
+#           sudo apt update
+#           pip3 install docutils
+#           sudo swapoff -a
+#           sudo apt install nfs-common
+#           sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
+#           sudo apt-get install libzmq3-dev
+#           sudo apt install libtool autoconf
+#           sudo apt install gnuradio python3-pip iperf3 -y
+
+#     - name: OAIC setup
+#       run: |
+
+#           cd ~/
+#           git clone https://github.com/openaicellular/oaic.git
+#           cd ~/oaic
+#           git submodule update --init --recursive --remote
+#           python3 generate_installation_script.py
+
+#     - name: Install asn1c Compiler
+#       run: |
+#           cd ~/oaic/asn1c
+#           autoreconf -iv
+#           ./configure
+#           make -j4
+#           sudo make install
+#           sudo ldconfig
+
+#     - name: Install O-RAN Near-Real Time RIC
+#       run: |
+#           sudo apt remove containernetworking-plugins
+#           # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
+#           cd ~/oaic/RIC-Deployment/tools/k8s/bin
+#           ./gen-cloud-init.sh
+#           sudo apt remove containernetworking-plugins
+#           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
+#           sudo kubectl get pods -A
+#           sudo kubectl create ns ricinfra
+#           sudo helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+#           sudo kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+#           sudo apt install nfs-common
+#           sleep 7200
+#           # Step 3: Build Modified E2 docker Image (7 minutes)
+#           sudo docker run -d -p 5001:5000 --restart=always --name ric registry:2
+#           cd ../../../..
+#           cd ric-plt-e2
+#           cd RIC-E2-TERMINATION
+#           sudo docker build -f Dockerfile -t localhost:5001/ric-plt-e2:5.5.0 .
+#           sudo docker push localhost:5001/ric-plt-e2:5.5.0
+#           cd ../../
+#           # Step 4: Deploy the near-Real Time RIC (3 minutes)
+#           cd RIC-Deployment/bin
+#           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+#           sudo kubectl get pods -A
+
+#     - name: Install srslte with E2 Agent
+#       run: |
+#           # compile srslte-e2 (19 minutes without running tests)
+#           cd ~/oaic
+#           git clone https://github.com/openaicellular/srslte-e2
+#           cd srslte-e2
+#           rm -rf build
+#           mkdir build
+#           export SRS=`realpath .`
+#           cd build
+#           cmake ../ -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+#                 -DRIC_GENERATED_E2AP_BINDING_DIR=${SRS}/e2_bindings/E2AP-v01.01 \
+#                 -DRIC_GENERATED_E2SM_KPM_BINDING_DIR=${SRS}/e2_bindings/E2SM-KPM \
+#                 -DRIC_GENERATED_E2SM_GNB_NRT_BINDING_DIR=${SRS}/e2_bindings/E2SM-GNB-NRT
+#           make -j`nproc`
+#           sudo make install
+#           sudo ldconfig
+#           sudo srslte_install_configs.sh service
+
+#     - name: Setup Nginx Web Server
+#       run: |
+#           OAIC=~/oaic
+#           sudo apt-get install nginx
+#           sudo systemctl start nginx.service
+
+#           sudo chmod -R 777 /etc/nginx
+#           cd /etc/nginx/sites-enabled
+#           sudo unlink default
+#           cd ../../../var/www
+#           sudo mkdir xApp_config.local
+#           cd xApp_config.local/
+#           sudo mkdir config_files
+
+#           cd ../../../etc/nginx/conf.d
+          
+#           sudo echo -e " \
+#           server { \n \
+#           listen 5010 default_server; \n \
+#           server_name xApp_config.local; \n \
+#           location /config_files/ { \n \
+#           \n \
+#           root /var/www/xApp_config.local/; \n \
+#           } \n \
+#           \n \
+#           }" >> xApp_config.local.conf
+
+#           echo ">>> reloading nginx..."
+#           sudo nginx -t
+
+#     - name: Deploying the Secure Slicing xApp
+#       run: |
+#           cd ~/oaic
+#           git clone https://github.com/openaicellular/ss-xapp.git
+#           cd ~/oaic/ss-xapp
+#           sudo cp config-file.json /var/www/xApp_config.local/config_files/
+#           sudo systemctl reload nginx
+#           sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
+#           IP=`hostname  -I | cut -f1 -d' '`
+
+#           sudo echo " \
+#           {"config-file.json_url":"http://${IP}:5010/config_files/config-file.json"} \
+#           " >> ss-xapp-onboard.url
+
+#           sudo kubectl get pods -A
+
+#           export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
+#           export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+#           export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+#           export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+#           export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
+#           export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
+
+#           curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ss-xapp-onboard.url"
+#           curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
+#           curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ss"}'
+#           sudo kubectl get pods -A
+
+#     - name: Set up 5G Network
+#       run: |
+#           echo ">>> Adding UE1..."
+#           sudo ip netns add ue1
+#           echo ">>> Adding UE2..."
+#           sudo ip netns add ue2
+#           echo ">>> Adding UE3..."
+#           sudo ip netns add ue3
+#           echo ">>> Starting EPC..."
+#           sudo srsepc & pid_epc=$!
+#           echo ">>> Getting E2NODE IP..."
+#           export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
+#           echo ">>> E2NODE IP is ${E2NODE_IP}"
+#           export E2NODE_PORT=5006
+#           echo ">>> Getting E2TERM IP..."
+#           export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
+#            echo ">>> Starting eNB..."
+#           sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
+#             --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6" \
+#             --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=enbLog.txt --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} & pid_enb=$!
+#           echo ">>> eNB started with pid ${pid_enb}"
+#           echo ">>> Waiting for RIC state to establish"
+#           sleep 120
+#           echo ">>> Starting UE1..."
+#           sudo srsue --gw.netns=ue1 & pid_ue=$!
+#           sleep 120
+#           echo ">>> Starting UE2..."
+#           sudo srsue --gw.netns=ue2 & pid_ue=$!
+#           sleep 120
+#           echo ">>> Starting UE3..."
+#           sudo srsue --gw.netns=ue3 & pid_ue=$!
+#           sleep 120
+
+#           python3 mutli_ue.py
+
+#           echo ">>> Pinging IP address..."
+
+#           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE1 Ping Fail"; done ; echo "UE1 setup completed" ;
+#           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE2 Ping Fail"; done ; echo "UE2 setup completed" ;
+#           while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE3 Ping Fail"; done ; echo "UE3 setup completed" ;
+
+#           echo ">>> 5G Network setup completed"
+
+#     - name: Testing Secure Slicing xApp
+#       run: |
+#           cd ~/oaic/ss-xapp
+#           sudo chmod +x zmqthreeue.sh
+#           sudo ./zmqthreeue.sh
+
 name: Testing Secure Slicing xApp
 on:
   push:
@@ -22,7 +223,7 @@ jobs:
     - name: Setup upterm session
       uses: lhotari/action-upterm@v1
 
-    - name: OAIC setup
+    - name: Install OAIC directory
       run: |
           cd ~/
           git clone https://github.com/openaicellular/oaic.git
@@ -39,7 +240,6 @@ jobs:
           sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
           sudo apt-get install libzmq3-dev
           sudo apt install libtool autoconf
-          sudo apt install gnuradio python3-pip iperf3 -y       
           
     - name: Install asn1c Compiler
       run: |
@@ -73,6 +273,7 @@ jobs:
           cd RIC-Deployment/bin
           sudo ./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
           sudo kubectl get pods -A
+          sleep 7200
 
     - name: Install srslte with E2 Agent
       run: |
@@ -93,71 +294,10 @@ jobs:
           sudo ldconfig
           sudo srslte_install_configs.sh service
 
-    - name: Setup Nginx Web Server
-      run: |
-          OAIC=~/oaic
-          sudo apt-get install nginx
-          sudo systemctl start nginx.service
-
-          sudo chmod -R 777 /etc/nginx
-          cd /etc/nginx/sites-enabled
-          sudo unlink default
-          cd ../../../var/www
-          sudo mkdir xApp_config.local
-          cd xApp_config.local/
-          sudo mkdir config_files
-
-          cd ../../../etc/nginx/conf.d
-          
-          sudo echo -e " \
-          server { \n \
-          listen 5010 default_server; \n \
-          server_name xApp_config.local; \n \
-          location /config_files/ { \n \
-          \n \
-          root /var/www/xApp_config.local/; \n \
-          } \n \
-          \n \
-          }" >> xApp_config.local.conf
-
-          echo ">>> reloading nginx..."
-          sudo nginx -t
-
-    - name: Deploying the Secure Slicing xApp
-      run: |
-          cd ~/oaic
-          git clone https://github.com/openaicellular/ss-xapp.git
-          cd ~/oaic/ss-xapp
-          sudo cp config-file.json /var/www/xApp_config.local/config_files/
-          sudo systemctl reload nginx
-          sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
-          IP=`hostname  -I | cut -f1 -d' '`
-
-          sudo echo " \
-          {"config-file.json_url":"http://${IP}:5010/config_files/config-file.json"} \
-          " >> ss-xapp-onboard.url
-
-          export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
-          export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-          export APPMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-appmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-          export E2TERM_SCTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-          export ONBOARDER_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-xapp-onboarder-http -o jsonpath='{.items[0].spec.clusterIP}'`
-          export RTMGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-rtmgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
-
-          curl -L -X POST "http://$KONG_PROXY:32080/onboard/api/v1/onboard/download" --header 'Content-Type: application/json' --data-binary "@ss-xapp-onboard.url"
-          curl -L -X GET "http://$KONG_PROXY:32080/onboard/api/v1/charts"
-          curl -L -X POST "http://$KONG_PROXY:32080/appmgr/ric/v1/xapps" --header 'Content-Type: application/json' --data-raw '{"xappName": "ss"}'
-          echo ">>> Secure Slicing xApp deployed"
-          sudo kubectl get pods -A
-
     - name: Set up 5G Network
       run: |
           echo ">>> Adding UE1..."
           sudo ip netns add ue1
-          echo ">>> Adding UE2..."
-          sudo ip netns add ue2
-          echo ">>> Adding UE3..."
-          sudo ip netns add ue3
           echo ">>> Starting EPC..."
           sudo srsepc & pid_epc=$!
           echo ">>> Getting E2NODE IP..."
@@ -166,36 +306,21 @@ jobs:
           export E2NODE_PORT=5006
           echo ">>> Getting E2TERM IP..."
           export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-           echo ">>> Starting eNB..."
+          echo ">>> E2TERM IP is ${E2TERM_IP}"
+          echo ">>> Starting eNB..."
           sudo srsenb --enb.n_prb=50 --enb.name=enb1 --enb.enb_id=0x19B \
             --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port0=tcp://*:2000,rx_port0=tcp://localhost:2001,tx_port1=tcp://*:2100,rx_port1=tcp://localhost:2101,id=enb,base_srate=23.04e6" \
             --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=enbLog.txt --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} & pid_enb=$!
           echo ">>> eNB started with pid ${pid_enb}"
           echo ">>> Waiting for RIC state to establish"
           sleep 120
-          echo ">>> Starting UE1..."
+          echo ">>> Starting UE..."
           sudo srsue --gw.netns=ue1 & pid_ue=$!
           sleep 120
-          echo ">>> Starting UE2..."
-          sudo srsue --gw.netns=ue2 & pid_ue=$!
-          sleep 120
-          echo ">>> Starting UE3..."
-          sudo srsue --gw.netns=ue3 & pid_ue=$!
-          sleep 120
-
-          python3 mutli_ue.py
-
           echo ">>> Pinging IP address..."
 
-          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE1 Ping Fail"; done ; echo "UE1 setup completed" ;
-          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE2 Ping Fail"; done ; echo "UE2 setup completed" ;
-          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "UE3 Ping Fail"; done ; echo "UE3 setup completed" ;
+          #timeout 5 sudo ip netns exec ue1 ping 172.16.0.1 -O -c 10 ; rc=$? # 124 for succesful ping
+          #if [ $rc -ne 124 ] ; then exit -1 ; fi
+          #echo ">>> 5G Network setup completed"
 
-          echo ">>> 5G Network setup completed"
-
-    - name: Testing Secure Slicing xApp
-      run: |
-          cd ~/oaic/ss-xapp
-          sudo chmod +x zmqthreeue.sh
-          sudo ./zmqthreeue.sh
-
+          while ! sudo ip netns exec ue1 ping 172.16.0.1 -c3; do echo "Ping Fail"; done ; echo "5G Network setup completed" ;
