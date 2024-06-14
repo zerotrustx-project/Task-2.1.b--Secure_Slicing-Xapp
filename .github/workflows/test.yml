@@ -93,35 +93,35 @@ jobs:
           sudo ldconfig
           sudo srslte_install_configs.sh service
 
-    # - name: Setup Nginx Web Server
-    #   run: |
-    #       OAIC=~/oaic
-    #       sudo apt-get install nginx
-    #       sudo systemctl start nginx.service
+    - name: Setup Nginx Web Server
+      run: |
+          OAIC=~/oaic
+          sudo apt-get install nginx
+          sudo systemctl start nginx.service
 
-    #       sudo chmod -R 777 /etc/nginx
-    #       cd /etc/nginx/sites-enabled
-    #       sudo unlink default
-    #       cd ../../../var/www
-    #       sudo mkdir xApp_config.local
-    #       cd xApp_config.local/
-    #       sudo mkdir config_files
+          sudo chmod -R 777 /etc/nginx
+          cd /etc/nginx/sites-enabled
+          sudo unlink default
+          cd ../../../var/www
+          sudo mkdir xApp_config.local
+          cd xApp_config.local/
+          sudo mkdir config_files
 
-    #       cd ../../../etc/nginx/conf.d
+          cd ../../../etc/nginx/conf.d
           
-    #       sudo echo -e " \
-    #       server { \n \
-    #       listen 5010 default_server; \n \
-    #       server_name xApp_config.local; \n \
-    #       location /config_files/ { \n \
-    #       \n \
-    #       root /var/www/xApp_config.local/; \n \
-    #       } \n \
-    #       \n \
-    #       }" >> xApp_config.local.conf
+          sudo echo -e " \
+          server { \n \
+          listen 5010 default_server; \n \
+          server_name xApp_config.local; \n \
+          location /config_files/ { \n \
+          \n \
+          root /var/www/xApp_config.local/; \n \
+          } \n \
+          \n \
+          }" >> xApp_config.local.conf
 
-    #       echo ">>> reloading nginx..."
-    #       sudo nginx -t
+          echo ">>> reloading nginx..."
+          sudo nginx -t
 
     # - name: Deploying the Secure Slicing xApp
     #   run: |
