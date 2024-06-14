@@ -20,7 +20,7 @@ jobs:
     - name: Install OAIC directory
       run: |
           git clone https://github.com/openaicellular/oaic.git
-          cd oaic 
+          cd ~/oaic 
           sudo apt-get update
           pip3 install docutils
           git submodule update --init --recursive --remote 
@@ -36,7 +36,7 @@ jobs:
           
     - name: Install asn1c Compiler
       run: |
-          cd oaic/asn1c
+          cd ~/oaic/asn1c
           autoreconf -iv
           ./configure
           make -j4
@@ -47,7 +47,7 @@ jobs:
       run: |
           # Step 2: Install Kubernetes, Docker, and Helm (4 minutes)
           sudo apt remove containernetworking-plugins
-          cd oaic/RIC-Deployment/tools/k8s/bin
+          cd ~/oaic/RIC-Deployment/tools/k8s/bin
           ./gen-cloud-init.sh
           sudo ./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh
           sudo kubectl get pods -A
@@ -71,7 +71,7 @@ jobs:
     - name: Install srslte with E2 Agent
       run: |
           # compile srslte-e2 (19 minutes without running tests)
-          cd oaic
+          cd ~/oaic
           git clone https://github.com/openaicellular/srslte-e2
           cd srslte-e2
           rm -rf build
@@ -118,9 +118,9 @@ jobs:
 
     - name: Deploying the Secure Slicing xApp
       run: |
-          cd oaic
+          cd ~/oaic
           git clone https://github.com/openaicellular/ss-xapp.git
-          cd oaic/ss-xapp
+          cd ~/oaic/ss-xapp
           sudo cp config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
@@ -189,6 +189,6 @@ jobs:
 
     - name: Testing Secure Slicing xApp
       run: |
-          cd oaic/ss-xapp
+          cd ~/oaic/ss-xapp
           sudo chmod +x zmqthreeue.sh
           sudo ./zmqthreeue.sh
