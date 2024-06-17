@@ -180,6 +180,7 @@ jobs:
           --rf.device_name=zmq --rf.device_args="tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6" --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue3 & pid_ue3=$!
           sleep 120
 
+          cd ~/oaic/ss-xapp
           python3 mutli_ue.py
 
           echo ">>> Pinging IP address..."
