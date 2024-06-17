@@ -120,6 +120,7 @@ jobs:
       run: |
           sudo cp config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
+          sudo chmod +x ./cmake/tools/make_asn1c_includes.sh
           sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
           IP=`hostname  -I | cut -f1 -d' '`
 
