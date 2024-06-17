@@ -118,9 +118,6 @@ jobs:
 
     - name: Deploying the Secure Slicing xApp
       run: |
-          cd ~/oaic
-          git clone https://github.com/openaicellular/ss-xapp.git
-          cd ~/oaic/ss-xapp
           sudo cp config-file.json /var/www/xApp_config.local/config_files/
           sudo systemctl reload nginx
           sudo docker build . -t xApp-registry.local:5008/ss:0.1.0
@@ -176,9 +173,8 @@ jobs:
           sudo srsue \
           --rf.device_name=zmq --rf.device_args="tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6" --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue3 & pid_ue3=$!
           sleep 120
-
-          cd ~/oaic/ss-xapp
-          python3 mutli_ue.py
+          
+          python3 multi_ue.py
 
           echo ">>> Pinging IP address..."
 
@@ -190,6 +186,5 @@ jobs:
 
     - name: Testing Secure Slicing xApp
       run: |
-          cd ~/oaic/ss-xapp
           sudo chmod +x zmqthreeue.sh
           sudo ./zmqthreeue.sh
