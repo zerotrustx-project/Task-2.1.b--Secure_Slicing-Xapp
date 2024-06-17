@@ -19,6 +19,7 @@ jobs:
 
     - name: Install OAIC directory
       run: |
+          cd ~/
           git clone https://github.com/openaicellular/oaic.git
           cd ~/oaic 
           sudo apt-get update
