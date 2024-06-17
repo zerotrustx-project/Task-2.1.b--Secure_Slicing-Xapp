@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install build-essential cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev libtool autoconf
           sudo apt-get install libzmq3-dev
           sudo apt install libtool autoconf
-          pip3 install gnuradio
+          sudo apt-get install install gnuradio
           
     - name: Install asn1c Compiler
       run: |
