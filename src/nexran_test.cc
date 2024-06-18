@@ -19,9 +19,14 @@ protected:
       config = std::make_unique<nexran::Config>();
       app = std::make_unique<nexran::App>(*config);
       mdclog_level_set(MDCLOG_DEBUG);
+      //e2sm::kpm::AgentInterface* agent_if = new e2sm::kpm::AgentInterface();
+      e2sm::Model* model = new e2sm::kpm::KpmModel(nullptr);
+      //e2sm::kpm::KpmReport* report = new e2sm::kpm::KpmReport();
+      kind = e2sm::kpm::KpmIndication(model);
     }
     std::unique_ptr<nexran::Config> config;
     std::unique_ptr<nexran::App> app;
+
     e2ap::SubscriptionResponse sub_resp;
     e2ap::SubscriptionFailure fail_resp;
     e2ap::SubscriptionDeleteResponse del_resp;
@@ -30,7 +35,8 @@ protected:
     e2ap::ControlFailure control_fail;
     e2ap::Indication e2ap_ind;
     e2ap::ErrorIndication err_ind;
-
+    
+    e2sm::kpm::KpmIndication kind = nullptr;
 };
 
 TEST_F(NexranTest, SubscriptionResonseTest) {
@@ -65,6 +71,11 @@ TEST_F(NexranTest, E2apIndicationTest) {
 
 TEST_F(NexranTest, ErrorIndicationTest) {
     bool result = app->handle(&err_ind);
+    ASSERT_EQ(result, true);
+}
+
+TEST_F(NexranTest, KpmIndicationTest) {
+    bool result = app->handle(&kind);
     ASSERT_EQ(result, true);
 }
 
