@@ -29,6 +29,8 @@ protected:
     e2ap::ControlAck control_ack;
     e2ap::ControlFailure control_fail;
     e2ap::Indication e2ap_ind;
+    e2ap::ErrorIndication err_ind;
+
 };
 
 TEST_F(NexranTest, SubscriptionResonseTest) {
@@ -58,6 +60,11 @@ TEST_F(NexranTest, SubscriptionControlFailureTest) {
 
 TEST_F(NexranTest, E2apIndicationTest) {
     bool result = app->handle(&e2ap_ind);
+    ASSERT_EQ(result, true);
+}
+
+TEST_F(NexranTest, ErrorIndicationTest) {
+    bool result = app->handle(&err_ind);
     ASSERT_EQ(result, true);
 }
 

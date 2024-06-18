@@ -115,31 +115,37 @@ bool App::send_message(const unsigned char *buf,ssize_t buf_len,
 bool App::handle(e2ap::SubscriptionResponse *resp)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran SubscriptionResponse handler");
+    return true;
 }
 
 bool App::handle(e2ap::SubscriptionFailure *resp)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran SubscriptionFailure handler");
+    return true;
 }
 
 bool App::handle(e2ap::SubscriptionDeleteResponse *resp)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran SubscriptionDeleteResponse handler");
+    return true;
 }
 
 bool App::handle(e2ap::SubscriptionDeleteFailure *resp)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran SubscriptionDeleteFailure handler");
+    return true;
 }
     
 bool App::handle(e2ap::ControlAck *control)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran ControlAck handler");
+    return true;
 }
 
 bool App::handle(e2ap::ControlFailure *control)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran ControlFailure handler");
+    return true;
 }
 
 bool App::handle(e2ap::Indication *ind)
@@ -167,6 +173,7 @@ bool App::handle(e2ap::Indication *ind)
 bool App::handle(e2ap::ErrorIndication *ind)
 {
     mdclog_write(MDCLOG_DEBUG,"nexran ErrorIndication handler");
+    return true;
 }
 
 bool App::handle(e2sm::nexran::SliceStatusIndication *ind)
