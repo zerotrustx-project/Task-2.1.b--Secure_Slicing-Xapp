@@ -1,8 +1,11 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # O-RAN upstream repo: release or staging (staging probably
 # only makes sense if you also set ORAN_VERSIONS=latest).
 ARG ORAN_REPO=release
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Chicago
 
 # O-RAN version-specific package support: set to `latest` to
 # get the latest stuff upstream in packagecloud $ORAN_REPO.
@@ -11,7 +14,7 @@ ARG MDCLOG_VERSION=0.1.1-1
 ARG RMR_VERSION=4.4.6
 
 RUN apt-get update \
-  && apt-get install -y cmake g++ libssl-dev rapidjson-dev git \
+  && apt-get install -y cmake vim python3-pip wget g++ libssl-dev rapidjson-dev git \
     ca-certificates curl gnupg apt-transport-https apt-utils \
     pkg-config autoconf libtool libcurl4-openssl-dev \
   && curl -s https://packagecloud.io/install/repositories/o-ran-sc/${ORAN_REPO}/script.deb.sh | os=debian dist=stretch bash  \
@@ -24,6 +27,16 @@ RUN apt-get update \
 	     rmr rmr-dev \
      ) \
   && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz \ 
+  && tar xf release-1.8.0.tar.gz \
+  && cd googletest-release-1.8.0 \
+  && cmake -DBUILD_SHARED_LIBS=ON . \
+  && make \
+  && cp -a googletest/include/gtest /usr/include \
+  && cp -a googlemock/gtest/libgtest_main.so googlemock/gtest/libgtest.so /usr/lib/ \
+  && make install \
+  && ldconfig -v | grep gtest
 
 RUN cd /tmp \
   && git clone https://gitlab.flux.utah.edu/powderrenewpublic/xapp-frame-cpp \
