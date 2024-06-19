@@ -17,16 +17,13 @@ jobs:
       with:
         fetch-depth: 0 # otherwise will fail to push refs to dest repo
 
-    - name: Export ENV variables
+    - name: Install Dependencies
       run: |
           export ORAN_REPO=release
           export DEBIAN_FRONTEND=noninteractive
           export TZ=America/Chicago
           export MDCLOG_VERSION=0.1.1-1
           export RMR_VERSION=4.4.6
-
-    - name: Install Dependencies
-      run: |
           sudo apt-get update 
           sudo apt-get install -y cmake python3-pip wget g++ libssl-dev rapidjson-dev git ca-certificates curl gnupg apt-transport-https apt-utils pkg-config autoconf libtool libcurl4-openssl-dev
           curl -s https://packagecloud.io/install/repositories/o-ran-sc/release/script.deb.sh | sudo os=debian dist=stretch bash
