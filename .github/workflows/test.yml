@@ -27,12 +27,12 @@ jobs:
 
     - name: Install Dependencies
       run: |
-          apt-get update 
-          apt-get install -y cmake vim python3-pip wget g++ libssl-dev rapidjson-dev git 
-          ca-certificates curl gnupg apt-transport-https apt-utils
+          sudo apt-get update 
+          sudo apt-get install -y cmake vim python3-pip wget g++ libssl-dev rapidjson-dev git \
+          ca-certificates curl gnupg apt-transport-https apt-utils \
           pkg-config autoconf libtool libcurl4-openssl-dev
           curl -s https://packagecloud.io/install/repositories/o-ran-sc/${ORAN_REPO}/script.deb.sh | os=debian dist=stretch bash
-          apt-get install -y mdclog=$MDCLOG_VERSION mdclog-dev=$MDCLOG_VERSION rmr=$RMR_VERSION rmr-dev=$RMR_VERSION
+          sudo apt-get install -y mdclog=$MDCLOG_VERSION mdclog-dev=$MDCLOG_VERSION rmr=$RMR_VERSION rmr-dev=$RMR_VERSION
           rm -rfvar/lib/apt/lists/*
 
     - name: Compile gtest
