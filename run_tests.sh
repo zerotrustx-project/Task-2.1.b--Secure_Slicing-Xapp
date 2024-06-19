@@ -68,7 +68,7 @@ cd /tmp &&
 	cmake ../ && make install && ldconfig &&
 	cd .. && rm -rf /tmp/influxdb-cxx
 
-cp -r . /nexran
+cp -r ./* /nexran
 
 cd /nexran &&
 	rm -rf build && mkdir build && cd build &&
