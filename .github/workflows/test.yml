@@ -54,15 +54,15 @@ jobs:
 
     - name: Compile asn1c
       run: |
-          cd /tmp \
-          git clone https://gitlab.flux.utah.edu/powderrenewpublic/asn1c-eurecom asn1c \
-          cd asn1c \
-          git checkout f12568d617dbf48497588f8e227d70388fa217c9 \
-          autoreconf -iv \
-          ./configure \
-          make install \
-          ldconfig \
-          cd .. \
+          cd /tmp
+          git clone https://gitlab.flux.utah.edu/powderrenewpublic/asn1c-eurecom asn1c
+          cd asn1c
+          git checkout f12568d617dbf48497588f8e227d70388fa217c9
+          autoreconf -iv
+          ./configure
+          make install
+          ldconfig
+          cd ..
           rm -rf /tmp/asn1c
 
     - name: Compile Pistache and InfluxDB
