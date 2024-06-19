@@ -9,6 +9,7 @@ export ORAN_VERSIONS=
 export MDCLOG_VERSION=0.1.1-1
 export RMR_VERSION=4.4.6
 
+mkdir -p /nexran
 cp -r ./* /nexran
 
 apt-get update &&
