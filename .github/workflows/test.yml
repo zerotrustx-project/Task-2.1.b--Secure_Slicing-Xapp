@@ -50,7 +50,7 @@ jobs:
           mkdir -p build && cd build
           sudo cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DDEV_PKG=1 ..
           sudo make && sudo make install && sudo ldconfig
-          cd /tmp && rm -rf /tmp/xapp-frame-cpp
+          cd /tmp && sudo rm -rf /tmp/xapp-frame-cpp
 
     - name: Compile asn1c
       run: |
