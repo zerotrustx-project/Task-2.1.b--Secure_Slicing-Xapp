@@ -90,3 +90,5 @@ export DEBUG=1
 export XAPP_NAME="nexran" 
 export XAPP_ID="1"
 
+cd /nexran/build/src && ctest
+
