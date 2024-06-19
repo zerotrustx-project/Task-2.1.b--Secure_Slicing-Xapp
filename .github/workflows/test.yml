@@ -60,18 +60,18 @@ jobs:
           git checkout f12568d617dbf48497588f8e227d70388fa217c9
           autoreconf -iv
           ./configure
-          make install
-          ldconfig
+          sudo make install
+          sudo ldconfig
           cd ..
-          rm -rf /tmp/asn1c
+          sudo rm -rf /tmp/asn1c
 
     - name: Compile Pistache and InfluxDB
       run: |
           cd /tmp 
           git clone https://gitlab.flux.utah.edu/powderrenewpublic/pistache
           cd pistache && mkdir build && cd build
-          cmake ../ && make install && ldconfig
-          cd .. && rm -rf /tmp/pistache
+          cmake ../ && sudo make install && sudo ldconfig
+          cd .. && sudo rm -rf /tmp/pistache
           cd /tmp
 
 
@@ -79,8 +79,8 @@ jobs:
           cd influxdb-cxx
           git checkout 6b76bd02f26166e03888214914e5f9a000feb7d8
           mkdir -p build && cd build
-          cmake ../ && make install && ldconfig
-          cd .. && rm -rf /tmp/influxdb-cxx
+          cmake ../ && sudo make install && sudo ldconfig
+          cd .. && sudo rm -rf /tmp/influxdb-cxx
 
 
 
@@ -88,7 +88,7 @@ jobs:
 
     - name: Building Secure Slicing xApp
       run: |
-          cp -r . /nexran
+          sudo cp -r . /nexran
 
           cd /nexran \
           rm -rf build && mkdir build && cd build \
