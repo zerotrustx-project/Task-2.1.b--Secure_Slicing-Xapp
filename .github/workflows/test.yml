@@ -29,7 +29,7 @@ jobs:
       run: |
           sudo apt-get update 
           sudo apt-get install -y cmake python3-pip wget g++ libssl-dev rapidjson-dev git ca-certificates curl gnupg apt-transport-https apt-utils pkg-config autoconf libtool libcurl4-openssl-dev
-          curl -s https://packagecloud.io/install/repositories/o-ran-sc/release/script.deb.sh | os=debian dist=stretch bash
+          curl -s https://packagecloud.io/install/repositories/o-ran-sc/release/script.deb.sh | sudo os=debian dist=stretch bash
           sudo apt-get install -y mdclog=$MDCLOG_VERSION mdclog-dev=$MDCLOG_VERSION rmr=$RMR_VERSION rmr-dev=$RMR_VERSION
           rm -rf var/lib/apt/lists/*
 
