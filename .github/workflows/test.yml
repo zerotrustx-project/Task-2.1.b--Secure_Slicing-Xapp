@@ -44,7 +44,7 @@ jobs:
 
     - name: Compile xapp frame
       run: |
-          cdtmp 
+          cd /tmp 
           git clone https://gitlab.flux.utah.edu/powderrenewpublic/xapp-frame-cpp
           cd xapp-frame-cpp
           mkdir -p build && cd build
@@ -54,7 +54,7 @@ jobs:
 
     - name: Compile asn1c
       run: |
-          cdtmp \
+          cd /tmp \
           git clone https://gitlab.flux.utah.edu/powderrenewpublic/asn1c-eurecom asn1c \
           cd asn1c \
           git checkout f12568d617dbf48497588f8e227d70388fa217c9 \
