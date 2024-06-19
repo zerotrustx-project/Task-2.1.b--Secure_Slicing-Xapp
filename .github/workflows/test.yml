@@ -63,7 +63,7 @@ jobs:
           make install \
           ldconfig \
           cd .. \
-          rm -rftmp/asn1c
+          rm -rf /tmp/asn1c
 
     - name: Compile Pistache and InfluxDB
       run: |
