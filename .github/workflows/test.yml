@@ -37,7 +37,7 @@ jobs:
           cd googletest-release-1.8.0
           cmake -DBUILD_SHARED_LIBS=ON .
           make
-          sudo cp -a googletest/include/gtestusr/include
+          sudo cp -a googletest/include/gtest /usr/include
           sudo cp -a googlemock/gtest/libgtest_main.so googlemock/gtest/libgtest.sousr/lib/
           sudo make install
           sudo ldconfig -v | grep gtest
