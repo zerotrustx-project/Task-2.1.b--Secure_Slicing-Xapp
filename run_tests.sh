@@ -9,6 +9,8 @@ export ORAN_VERSIONS=
 export MDCLOG_VERSION=0.1.1-1
 export RMR_VERSION=4.4.6
 
+cp -r ./* /nexran
+
 apt-get update &&
 	apt-get install -y cmake vim python3-pip wget g++ libssl-dev rapidjson-dev git \
 		ca-certificates curl gnupg apt-transport-https apt-utils \
@@ -67,8 +69,6 @@ cd /tmp &&
 	mkdir -p build && cd build &&
 	cmake ../ && make install && ldconfig &&
 	cd .. && rm -rf /tmp/influxdb-cxx
-
-cp -r ./* /nexran
 
 cd /nexran &&
 	rm -rf build && mkdir build && cd build &&
