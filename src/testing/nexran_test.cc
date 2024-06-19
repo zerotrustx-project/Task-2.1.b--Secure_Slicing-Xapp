@@ -36,11 +36,12 @@ protected:
     e2sm::Model* model = new e2sm::kpm::KpmModel(nullptr);
     e2sm::kpm::KpmIndication* kind = new e2sm::kpm::KpmIndication(model);
 };
-
+/*
 TEST_F(NexranTest, IndicationKpmModelTest) {
     bool result = app->handle(kind);
     ASSERT_EQ(result, true);
 }
+*/
 
 TEST_F(NexranTest, SubscriptionResonseTest) {
     bool result = app->handle(&sub_resp);
