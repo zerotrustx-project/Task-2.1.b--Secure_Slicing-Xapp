@@ -41,13 +41,8 @@ protected:
     e2sm::Model * e2sm_model;
 
 };
-<<<<<<< Updated upstream
 /*
 TEST_F(NexranTest, IndicationKpmModelTest) {
-=======
-
-TEST_F(NexranTest, KpmIndicationTest) {
->>>>>>> Stashed changes
     bool result = app->handle(kind);
     ASSERT_EQ(result, true);
 }
